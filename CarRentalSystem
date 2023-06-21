@@ -1,0 +1,85 @@
+class CarRentalSystem {
+    private List<Car> cars;
+    private List<Customer> customers;
+    private List<RentalTransaction> transactions;
+
+    public CarRentalSystem() {
+        this.cars = new ArrayList<>();
+        this.customers = new ArrayList<>();
+        this.transactions = new ArrayList<>();
+    }
+
+    public void addCar(Car car) {
+        cars.add(car);
+    }
+
+    public void addCustomer(Customer customer) {
+        customers.add(customer);
+    }
+
+    public void rentCar(Customer customer, Car car, LocalDate startDate, LocalDate endDate) {
+        if (!car.isAvailable()) {
+            System.out.println("Car is not available for rent.");
+            return;
+        }
+
+        RentalTransaction transaction = new RentalTransaction(
+                generateTransactionId(),
+                car,
+                customer,
+                startDate,
+                endDate
+        );
+
+        double totalCost = calculateCost(transaction);
+        transaction.setTotalCost(totalCost);
+
+        transactions.add(transaction);
+        car.setAvailable(false);
+
+        System.out.println("Car rented successfully. Transaction ID: " + transaction.getTransactionId());
+    }
+
+    public void returnCar(RentalTransaction transaction) {
+        transaction.getCar().setAvailable(true);
+        System.out.println("Car returned successfully. Transaction ID: " + transaction.getTransactionId());
+    }
+
+    public double calculateCost(RentalTransaction transaction) {
+        int rentalDays = (int) (transaction.getRentalEndDate().toEpochDay() - transaction.getRentalStartDate().toEpochDay()) + 1;
+        double rentalRate = transaction.getCar().getRentalRatePerDay();
+
+        return rentalDays * rentalRate;
+    }
+
+    public void displayAvailableCars() {
+        System.out.println("Available Cars:");
+        for (Car car : cars) {
+            if (car.isAvailable()) {
+                System.out.println(car.getCarId() + " - " + car.getMake() + " " + car.getModel() + " (" + car.getYear() + ")");
+            }
+        }
+    }
+
+
+public void displayCustomerTransactions(Customer customer) {
+        System.out.println("Customer Transactions - " + customer.getName() + ":");
+        for (RentalTransaction transaction : transactions) {
+            if (transaction.getCustomer() == customer) {
+                System.out.println(
+                        "Transaction ID: " + transaction.getTransactionId() +
+                        ", Car: " + transaction.getCar().getCarId() +
+                        ", Start Date: " + transaction.getRentalStartDate() +
+                        ", End Date: " + transaction.getRentalEndDate() +
+                        ", Total Cost: $" + transaction.getTotalCost()
+                );
+            }
+        }
+    }
+
+    private String generateTransactionId() {
+        // Generate a unique transaction ID (you can use a random generator or a counter)
+        // For simplicity, we'll use a counter here
+        return "T" + (transactions.size() + 1);
+    }
+}
