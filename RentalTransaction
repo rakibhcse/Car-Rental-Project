@@ -1,0 +1,23 @@
+class RentalTransaction {
+    private String transactionId;
+    private Car car;
+    private Customer customer;
+    private LocalDate rentalStartDate;
+    private LocalDate rentalEndDate;
+    private double totalCost;
+
+    public RentalTransaction(String transactionId, Car car, Customer customer, LocalDate rentalStartDate, LocalDate rentalEndDate) {
+        this.transactionId = transactionId;
+        this.car = car;
+        this.customer = customer;
+        this.rentalStartDate = rentalStartDate;
+        this.rentalEndDate = rentalEndDate;
+        this.totalCost = 0.0;
+    }
+
+   s
+
+    public void setTotalCost(double totalCost) {
+        this.totalCost = totalCost;
+    }
+}
