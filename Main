@@ -1,0 +1,27 @@
+public class Main {
+    public static void main(String[] args) {
+        CarRentalSystem rentalSystem = new CarRentalSystem();
+
+        // Adding cars
+        Car car1 = new Car("C001", "Toyota", "Camry", 2020, 50.0);
+        Car car2 = new Car("C002", "Honda", "Accord", 2019, 45.0);
+        rentalSystem.addCar(car1);
+        rentalSystem.addCar(car2);
+
+        // Adding customers
+        Customer customer1 = new Customer("CUS001", "Adiyat", "123 Main St", "123-456-7890");
+        Customer customer2 = new Customer("CUS002", "Afiyat", "456 Elm St", "987-654-3210");
+        rentalSystem.addCustomer(customer1);
+        rentalSystem.addCustomer(customer2);
+
+        // Renting a car
+        rentalSystem.displayAvailableCars();
+        rentalSystem.rentCar(customer1, car1, LocalDate.of(2023, 6, 1), LocalDate.of(2023, 6, 3));
+
+        // Returning a car
+        rentalSystem.returnCar(rentalSystem.getTransactions().get(0));
+
+        // Displaying customer transactions
+        rentalSystem.displayCustomerTransactions(customer1);
+    }
+}
